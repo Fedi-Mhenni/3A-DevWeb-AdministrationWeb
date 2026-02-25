@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +26,20 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mon-projet:latest
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Installer les dépendances
+        run: npm ci
+      - name: Lancer les tests
+        run: npm test
 
   deploy:
     needs: build
