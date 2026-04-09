@@ -35,7 +35,7 @@ jobs:
       - name: Installer Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Installer les dépendances
         run: npm install
@@ -55,5 +55,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/3A-DevWeb-AdministrationWeb
+            git pull origin main
+            docker compose down 
             docker compose pull
             docker compose up -d
